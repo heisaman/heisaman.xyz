@@ -1,9 +1,8 @@
 ---
 layout: page
 title: Weibo_favorites
-permalink: /weibo_favorites/
 ---
-{% for f in site.data.favorites %}
+{% for f in site.data.favorites limit:20 offset:0 %}
 <div class="WB_face W_fl">
     <div class="face">
         <img usercard="id=3369755644&amp;refer_flag=" title="" alt="" width="50" height="50" src="{{f.status.user.profile_image_url}}" class="W_face_radius">
@@ -59,3 +58,17 @@ permalink: /weibo_favorites/
     <!-- /feed区组件_收藏tag -->
 </div>
 {% endfor %}
+<!-- Pagination links -->
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+  {% else %}
+    <span class="previous">Previous</span>
+  {% endif %}
+  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% else %}
+    <span class="next ">Next</span>
+  {% endif %}
+</div>
