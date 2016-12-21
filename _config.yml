@@ -16,7 +16,7 @@ disqus_shortname: yuweisblog
 favicon:     "/images/favicon.ico"
 aboutme: Hi, this is Yuwei HE. # these are shown on aboutme-sidebar.
 aboutme_photo: http://7xqyb5.com1.z0.glb.clouddn.com/yuwei_icon.jpg # your photo.
-google_analytics_key: UA-57979084-1 # put YOUR key here to enable tracking! (blank to disable)
+google_analytics_key: # put YOUR key here to enable tracking! (blank to disable)
 
 
 ### Site setting:
