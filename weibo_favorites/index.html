@@ -13,7 +13,7 @@ title: Weibo_favorites
     <div class="WB_info">
         <a suda-uatrack="key=feed_headnick&amp;value=pubuser_nick:4017819366758684" target="_blank" class="W_f14 W_fb S_txt1" nick-name=""
             title="" href="" usercard="id=3369755644&amp;refer_flag=">{{f.status.user.name}}</a>
-        <a target="_blank" href="http://huodong.weibo.com/travel2016?ref=icon " title="带着微博去旅行">
+        <a target="_blank" title="带着微博去旅行">
             <i class="W_icon icon_airball"></i>
         </a>
     </div>
@@ -25,9 +25,9 @@ title: Weibo_favorites
     <div class="WB_text W_f14" node-type="feed_list_content">
         {{f.status.text}}
     </div>
-    {% if f.status.pic_urls %}
+    {% if f.status.pic_urls.size > 0 %}
         <div class="WB_media_wrap clearfix" node-type="feed_list_media_prev">
-            <div class="media_box">&gt;
+            <div class="media_box">
                 <!--图片个数大于1，不渲染卡片-->
                 <!--TODO 只显示图片-->
                 <!--picture_count == 9-->
@@ -48,13 +48,14 @@ title: Weibo_favorites
             <div class="WB_info">
                 <a target="_blank" suda-uatrack="key=feed_headnick&amp;value=transuser_nick:4017499345626797" class="W_fb S_txt1" node-type="feed_list_originNick"
                     nick-name="" href="" title="" usercard="id=5433674303&amp;refer_flag=">{{f.status.retweeted_status.user.name}}</a>
-                <a target="_blank" href="http://huodong.weibo.com/travel2016?ref=icon " title="带着微博去旅行"><i class="W_icon icon_airball"></i></a>
+                <a target="_blank" title="带着微博去旅行"><i class="W_icon icon_airball"></i></a>
             </div>
             <div class="WB_text" node-type="feed_list_reason">
                 {{f.status.retweeted_status.text}}
             </div>
             <!-- 微博心情，独立于标准的ul节点 -->
 
+            {% if f.status.retweeted_status.pic_urls.size > 0 %}
             <div class="WB_media_wrap clearfix" node-type="feed_list_media_prev">
                 <div class="media_box">
                     <!--图片个数等于1，只显示图片-->
@@ -68,6 +69,7 @@ title: Weibo_favorites
                     </ul>
                 </div>
             </div>
+            {% endif %}
             <div class="WB_func clearfix">
                 <div class="WB_handle W_fr" mid="4052741283647207">
                 </div>
@@ -84,7 +86,7 @@ title: Weibo_favorites
     {% endif %}
     <!-- feed区组件_收藏tag -->
     <div class="WB_tag WB_tag_v2  clearfix S_txt2">
-        <span class="W_fr">收藏于{{f['favorited_time']}}</span>
+        <span class="W_fr">收藏于{{f['favorited_time_str']}}</span>
     </div>
     <!-- /feed区组件_收藏tag -->
 </div>
