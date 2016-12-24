@@ -22,6 +22,6 @@ $(document).ready(function(){
     } );
 
     $('.WB_text').each(function(i, obj) {
-        $(obj).innerHTML = autolinker.link( $(obj).innerHTML );
+        $(this).innerHTML = autolinker.link( $(this).innerHTML );
     });
 });
