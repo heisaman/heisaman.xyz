@@ -84,5 +84,3 @@ gems: [jekyll-paginate]
 paginate: 5
 paginate_path: "/weibo_favorites/page:num/"
 excerpt_separator: <!-- more -->
-
-exclude: [node_modules]

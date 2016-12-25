@@ -2,7 +2,9 @@
 layout: page
 title: Weibo_favorites
 ---
+<div class="WB_feed WB_feed_v3 WB_feed_v4" node-type="feed_list">
 {% for f in site.data.favorites limit:50 offset:0 %}
+<div class="WB_cardwrap WB_feed_type S_bg2">
 <div class="WB_feed_detail clearfix" node-type="feed_content">
 <div class="WB_face W_fl">
     <div class="face">
@@ -28,16 +30,25 @@ title: Weibo_favorites
     {% if f.status.pic_urls.size > 0 %}
         <div class="WB_media_wrap clearfix" node-type="feed_list_media_prev">
             <div class="media_box">
+                {% if f.status.pic_urls.size > 1 %}
                 <!--图片个数大于1，不渲染卡片-->
-                <!--TODO 只显示图片-->
                 <!--picture_count == 9-->
-                <ul class="WB_media_a WB_media_a_mn WB_media_a_m9 clearfix" node-type="fl_pic_list" action-data="uid=1593933550&amp;pic_ids=5f017eeegw1farf2ov4kkj20xc0m8jym,5f017eeegw1farf2pm7dwj20r80fbjy0,5f017eeegw1farf2qracvj20xc0pagv1,5f017eeegw1farf2r8y40j20zk0msqd3,5f017eeegw1farf2rmqo5j20xc0fagrh,5f017eeegw1farf2s2jabj218g0xcah8,5f017eeegw1farf2td8w9j20sg0lcwp4,5f017eeegw1farf2u75coj20qo0hsn7p,5f017eeegw1farf2v0ie5j20ir09gwi5&amp;mid=4053053851617328&amp;pic_objects=&amp;object_ids=1042018%3A9adbfe76533cd922c88a96f4e879eaa1%2C1042018%3A3d4b63af82b4ff542b041f852380f585%2C1042018%3Aff61f3fb89127b958735ba5fc1d1fabb%2C1042018%3A76004d939878125bd42bd594efdbb477%2C1042018%3A238da7e14a8352e4be086e08aad73fe5%2C1042018%3Ab8ccedd30a6db9ddd368e37e1862d498%2C1042018%3A34f14cc101d2bff356b5868a196126e2%2C1042018%3Ab3ff5e9cf66c98a19d8c51321841d305%2C1042018%3Aa7d4790c023bb04b1939a26b612da9dc&amp;photo_tag_pids=">
+                <ul class="WB_media_a WB_media_a_mn WB_media_a_m9 clearfix">
                     {% for pic in f.status.pic_urls %}
-                    <li class="WB_pic li_{{ forloop.index }} S_bg1 S_line2 bigcursor" action-data="pic_id=5f017eeegw1farf2ov4kkj20xc0m8jym" action-type="fl_pics" suda-uatrack="key=tblog_newimage_feed&amp;value=image_feed_unfold:4053053851617328:5f017eeegw1farf2ov4kkj20xc0m8jym">
+                    <li class="WB_pic li_{{ forloop.index }} S_bg1 S_line2 bigcursor">
                         <img src="{{pic.thumbnail_pic}}">
                     </li>
                     {% endfor %}
                 </ul>
+                {% else %}
+                <ul class="WB_media_a  WB_media_a_m1 clearfix">
+                    {% for pic in f.status.pic_urls %}
+                    <li class="WB_pic li_1 S_bg1 S_line2 bigcursor ">
+                        <img src="{{pic.thumbnail_pic}}">
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
         </div>
     {% endif %}
@@ -58,15 +69,25 @@ title: Weibo_favorites
             {% if f.status.retweeted_status.pic_urls.size > 0 %}
             <div class="WB_media_wrap clearfix" node-type="feed_list_media_prev">
                 <div class="media_box">
+                    {% if f.status.retweeted_status.pic_urls.size > 1 %}
+                    <!--图片个数大于1，不渲染卡片-->
+                    <!--picture_count == 9-->
+                    <ul class="WB_media_a WB_media_a_mn WB_media_a_m9 clearfix">
+                        {% for pic in f.status.retweeted_status.pic_urls %}
+                        <li class="WB_pic li_{{ forloop.index }} S_bg1 S_line2 bigcursor">
+                            <img src="{{pic.thumbnail_pic}}">
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
                     <!--图片个数等于1，只显示图片-->
-
                     <!--picture_count == 1-->
                     <ul class="WB_media_a  WB_media_a_m1 clearfix">
-                        <li class="WB_pic li_1 S_bg1 S_line2 bigcursor li_n_mix_w" action-data="pid=005VJ8U7jw1f7mcgyvdtcj30xy0v4n6h&amp;object_ids=1042018%3A956db3dfeb0400bc26d9e664024ca036&amp;photo_tag_pids=&amp;uid=5433674303&amp;mid=4017499345626797&amp;pic_ids=005VJ8U7jw1f7mcgyvdtcj30xy0v4n6h&amp;pic_objects="
-                            action-type="feed_list_media_img" suda-uatrack="key=tblog_newimage_feed&amp;value=image_feed_unfold:4017499345626797:005VJ8U7jw1f7mcgyvdtcj30xy0v4n6h">
+                        <li class="WB_pic li_1 S_bg1 S_line2 bigcursor li_n_mix_w">
                             <img src="{{f.status.retweeted_status.bmiddle_pic}}">
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -91,7 +112,9 @@ title: Weibo_favorites
     <!-- /feed区组件_收藏tag -->
 </div>
 </div>
+</div>
 {% endfor %}
+</div>
 <!-- Pagination links -->
 <div class="pagination">
   {% if paginator.previous_page %}
