@@ -1,4 +1,4 @@
-$(document).ready(function(){
+(function($) {
     var autolinker = new Autolinker( {
         urls : {
             schemeMatches : true,
@@ -24,4 +24,14 @@ $(document).ready(function(){
     $('.WB_text').each(function(i, obj) {
         obj.innerHTML = autolinker.link( obj.innerHTML );
     });
-});
+
+    $('.WB_media_a_mn img').each(function(i, obj) {
+        var src = obj.getAttribute("src");
+        obj.setAttribute("src", src.replace("thumbnail", "thumb150"));
+    });
+
+    $('.WB_media_a_m1 img').each(function(i, obj) {
+        var src = obj.getAttribute("src");
+        obj.setAttribute("src", src.replace("thumbnail", "orj360"));
+    });
+})(jQuery);
