@@ -3578,7 +3578,7 @@ Autolinker.matcher.Emoji = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
 	 * @private
 	 * @property {Object} matcherRegexes
 	 */
-	matcherRegex : new RegExp( '^\[' + Autolinker.RegexLib.alphaNumericCharsStr + '\]$', 'g' ),
+	matcherRegex : /\[([^\]]+)]/g,
 
 
 	/**
