@@ -160,6 +160,7 @@ var Autolinker = function( cfg ) {
 	this.htmlParser = null;
 	this.matchers = null;
 	this.tagBuilder = null;
+	this.imgTagBuilder = null;
 };
 
 
@@ -859,6 +860,7 @@ Autolinker.prototype = {
 				new matchersNs.Email( { tagBuilder: tagBuilder } ),
 				new matchersNs.Phone( { tagBuilder: tagBuilder } ),
 				new matchersNs.Mention( { tagBuilder: tagBuilder, serviceName: this.mention } ),
+				new matchersNs.Emoji( { tagBuilder: this.getImgTagBuilder() } ),
 				new matchersNs.Url( { tagBuilder: tagBuilder, stripPrefix: this.stripPrefix, stripTrailingSlash: this.stripTrailingSlash } )
 			];
 
@@ -903,7 +905,21 @@ Autolinker.prototype = {
 		}
 
 		return tagBuilder;
-	}
+	},
+
+	getImgTagBuilder : function() {
+		var imgTagBuilder = this.imgTagBuilder;
+
+		if( !imgTagBuilder ) {
+			imgTagBuilder = this.imgTagBuilder = new Autolinker.ImageTagBuilder( {
+				newWindow   : this.newWindow,
+				truncate    : this.truncate,
+				className   : this.className
+			} );
+		}
+
+		return imgTagBuilder;
+	},
 
 };
 
@@ -1773,6 +1789,37 @@ Autolinker.AnchorTagBuilder = Autolinker.Util.extend( Object, {
 } );
 
 /*global Autolinker */
+/*jshint sub:true */
+/**
+ * @protected
+ * @class Autolinker.ImageTagBuilder
+ * @extends Object
+ *
+ * Builds img tags for the Autolinker utility when a match is
+ * found.
+ */
+Autolinker.ImageTagBuilder = Autolinker.Util.extend( Object, {
+
+
+	build : function( match ) {
+		return new Autolinker.HtmlTag( {
+			tagName   : 'img',
+			attrs     : this.createAttrs( match )
+		} );
+	},
+
+
+	createAttrs : function( match ) {
+		var attrs = {
+			'src' : match.getImageSrc()  // we'll always have the `src` attribute
+		};
+
+		return attrs;
+	},
+
+} );
+
+/*global Autolinker */
 /**
  * @class Autolinker.htmlParser.HtmlParser
  * @extends Object
@@ -2427,6 +2474,14 @@ Autolinker.match.Match = Autolinker.Util.extend( Object, {
 	 */
 	getAnchorText : Autolinker.Util.abstractMethod,
 
+
+	/**
+	 * Returns the img src that should be generated for the match.
+	 *
+	 * @abstract
+	 * @return {String}
+	 */
+	getImageSrc : Autolinker.Util.abstractMethod,
 
 	/**
 	 * Returns the CSS class suffix(es) for this match.
@@ -3126,6 +3181,56 @@ Autolinker.match.Url = Autolinker.Util.extend( Autolinker.match.Match, {
 	}
 
 } );
+
+
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Emoji
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Emoji match found in an input string which should be Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more details.
+ */
+Autolinker.match.Emoji = Autolinker.Util.extend( Autolinker.match.Match, {
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		if( !cfg.phrase ) throw new Error( '`phrase` cfg required' );
+
+		this.phrase = cfg.phrase;
+	},
+
+
+	/**
+	 * Returns a string name for the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'emoji';
+	},
+
+
+	/**
+	 * Returns the image src that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getImageSrc : function() {
+		var result = jQuery.grep(emojis, function(e){ return e.phrase == this.phrase; });
+		return result[0].url;
+	}
+
+} );
+
 /*global Autolinker */
 /**
  * @abstract
@@ -3449,6 +3554,51 @@ Autolinker.matcher.Mention = Autolinker.Util.extend( Autolinker.matcher.Matcher,
 					mention       : mention
 				} ) );
 			}
+		}
+
+		return matches;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Emoji
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find/replace emojis matches in an input string.
+ */
+Autolinker.matcher.Emoji = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * Hash of regular expression to match username handles. Example match:
+	 *
+	 *     @asdf
+	 *
+	 * @private
+	 * @property {Object} matcherRegexes
+	 */
+	matcherRegex : new RegExp( '^\[' + Autolinker.RegexLib.alphaNumericCharsStr + '\]$', 'g' ),
+
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches : function( text ) {
+		var matcherRegex = this.matcherRegex,
+		    tagBuilder = this.tagBuilder,
+		    matches = [],
+		    match;
+
+		while( ( match = matcherRegex.exec( text ) ) !== null ) {
+			var matchedText = match[ 0 ];
+
+			matches.push( new Autolinker.match.Emoji( {
+				tagBuilder  : tagBuilder,
+				matchedText : matchedText,
+				offset      : match.index,
+				phrase      : matchedText
+			} ) );
 		}
 
 		return matches;
