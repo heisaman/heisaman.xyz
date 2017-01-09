@@ -3225,7 +3225,8 @@ Autolinker.match.Emoji = Autolinker.Util.extend( Autolinker.match.Match, {
 	 * @return {String}
 	 */
 	getImageSrc : function() {
-		var result = jQuery.grep(emojis, function(e){ return e.phrase == this.phrase; });
+		var phrase = this.phrase;
+		var result = jQuery.grep(emojis, function(e){ return e.phrase === phrase; });
 		return result[0].url;
 	}
 
