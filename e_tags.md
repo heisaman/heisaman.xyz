@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Tags
+show_title: yes
 permalink: /tags/
 ---
 

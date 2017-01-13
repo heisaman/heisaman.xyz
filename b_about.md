@@ -2,6 +2,7 @@
 layout: page
 title: About
 comments: yes
+show_title: yes
 permalink: /about/
 ---
 
