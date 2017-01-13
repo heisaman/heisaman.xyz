@@ -10,7 +10,13 @@ permalink: /
 
 新的一年要完成以下七件事:
 
-<ol type="I">
+<ol style="
+    list-style: upper-roman;
+    line-height: 33px;
+    margin-left: 30px;
+    font-style: oblique;
+    text-decoration: underline;
+">
 	<li>每周写一篇博文，以技术文章为主<input type="checkbox" />；</li>
 
 	<li>去趟台湾或者俄罗斯远东<input type="checkbox" />；</li>
@@ -24,13 +30,10 @@ permalink: /
 	<li>每周都要锻炼，体重自然增加到140斤并保持<input type="checkbox" />；</li>
 
 	<li>直到表哥和表弟学习前端知识，每天都在Github上提交代码<input type="checkbox" />；</li>
-</ol>
-<br><br><br>
+</ol><br>
 一个人坚持独立自学，是很孤独和辛苦的事儿。
 
-所以，保证自己足够勤奋的同时，多找些志同道合的伙伴一起吧！
-
-<br><br><br>
+所以，保证自己足够勤奋的同时，多找些志同道合的伙伴一起吧！<br>
 #### 学习对象:
 <a target="_blank" class="W_fb S_txt1" href="http://weibo.com/phunterlau" title="phunter_lau">@phunter_lau</a>，物理博士转计算机工作，自学各大公开课，已然网络安全领域的大牛。 <br>
 <a target="_blank" class="W_fb S_txt1" href="http://weibo.com/u/1657470871" title="王威廉">@王威廉</a>，加州圣巴巴拉大学教授，机器学习大牛。 <br>
