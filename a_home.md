@@ -29,7 +29,7 @@ permalink: /
 
 	<li>每周都要锻炼，体重自然增加到140斤并保持<input type="checkbox" />；</li>
 
-	<li>直到表哥和表弟学习前端知识，每天都在Github上提交代码<input type="checkbox" />；</li>
+	<li>指导表哥和表弟学习前端知识，每天都在Github上提交代码<input type="checkbox" />；</li>
 </ol><br>
 一个人坚持独立自学，是很孤独和辛苦的事儿。
 
